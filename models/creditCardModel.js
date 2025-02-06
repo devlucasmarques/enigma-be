@@ -23,7 +23,7 @@ const creditCardSchema = new mongoose.Schema({
 const userCreditCardSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: '_cm_user',
+    ref: '_enigma_user',
     required: true
   },
   creditCard: creditCardSchema

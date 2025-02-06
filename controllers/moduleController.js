@@ -42,7 +42,15 @@ const getModuleDTO_image = async (req, res) => {
 
     const module = await ModuleModel.findOne(
       { _id },
-      { _id: 1, idModel: 1, name: 1, images: 1, size: 1, component: 1 }
+      {
+        _id: 1,
+        idModel: 1,
+        name: 1,
+        images: 1,
+        size: 1,
+        component: 1,
+        credit: 1
+      }
     );
 
     if (!module) res.status(404).json({ error: true });
@@ -89,7 +97,7 @@ const findModulesModel = async (req, res) => {
 
     const modules = await ModuleModel.find(
       { idModel },
-      { _id: 1, name: 1, idCopyModule: 1, size: 1, component: 1 }
+      { _id: 1, name: 1, idCopyModule: 1, size: 1, component: 1, credit: 1 }
     );
     modules
       ? res.status(200).json(modules)
@@ -110,18 +118,27 @@ const saveModule = async (req, res) => {
     const { body } = req;
     const {
       idModel,
+      idServiceType,
       name,
       size,
       component,
+      credit = '1',
       images = [],
       fileBase,
       donateFilename
     } = body;
+    if (!idServiceType) {
+      res.status(400).json({ error: true });
+      return;
+    }
+
     const doc = new ModuleModel({
       idModel,
+      idServiceType,
       name,
       size,
       component,
+      credit,
       images,
       dateCreate,
       idUser,
@@ -132,6 +149,7 @@ const saveModule = async (req, res) => {
     const saved = await doc.save();
     saved ? res.status(201).json(saved._id) : res.status(500).json({});
   } catch (e) {
+    console.error(e);
     res.status(599).json({ error: true });
   }
 };
@@ -145,7 +163,7 @@ const saveModulePaste = async (req, res) => {
 
   try {
     const { body } = req;
-    const { idModel, name, idCopyModule, component, size } = body;
+    const { idModel, name, idCopyModule, component, credit, size } = body;
 
     const doc = new ModuleModel({
       idModel,
@@ -154,6 +172,7 @@ const saveModulePaste = async (req, res) => {
       idUser,
       idCopyModule,
       component,
+      credit,
       size
     });
     const saved = await doc.save();
@@ -173,6 +192,7 @@ const editModule = async (req, res) => {
       name,
       size,
       component,
+      credit,
       images = [],
       fileBase,
       donateFilename
@@ -193,6 +213,7 @@ const editModule = async (req, res) => {
             name,
             size,
             component,
+            credit,
             images,
             dateUpdate,
             idUser,
