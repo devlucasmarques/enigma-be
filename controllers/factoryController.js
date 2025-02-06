@@ -5,14 +5,14 @@ const getFactories = async (req, res) => {
   if (req.level > 5)
     return res.status(403).json({ factories: [], models: [], modules: [] });
 
-  if (!req.query?.serviceType) {
+  if (!req.query || !req.query.serviceType) {
     res.status(400).json({ error: true });
     return;
   }
 
   try {
     const find =
-      req.query?.serviceType !== '67a161f97f64e0a93b665804' //codigo do tipo airbag
+      req.query.serviceType !== '67a161f97f64e0a93b665804' //codigo do tipo airbag
         ? { idServiceType: req.query.serviceType }
         : {
             $or: [{ idServiceType: { $exists: false } }]
