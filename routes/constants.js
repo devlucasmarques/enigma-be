@@ -1,3 +1,7 @@
+const SERVICE_TYPE = {
+  SINGLE: '/service-type-f7fs6'
+};
+
 const COUPON = {
   SINGLE: '/coupons-fnjui5',
   VALUE: '/coupons-value-fnjui5/:code'
@@ -13,4 +17,4 @@ const CREDIT_CARD = {
   PAYMENT: '/credit-card/payment-09GGF8a'
 };
 
-module.exports = { COUPON, PAYMENT_OTHER, CREDIT_CARD };
+module.exports = { COUPON, PAYMENT_OTHER, CREDIT_CARD, SERVICE_TYPE };

@@ -6,6 +6,7 @@ const SchemaFactory = new Schema({
   dateUpdate: Date,
   id: SchemaTypes.ObjectId,
   idUser: SchemaTypes.ObjectId,
+  idServiceType: SchemaTypes.ObjectId,
   factory: String,
   localImage: String,
   models: [SchemaTypes.ObjectId]

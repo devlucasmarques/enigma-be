@@ -10,6 +10,7 @@ const paymentsRoutes = require('./paymentRoutes');
 const paymentsOtherRoutes = require('./paymentOtherRoutes');
 const couponsRoutes = require('./couponRoutes');
 const creditCardRoutes = require('./creditCardRoutes');
+const serviceTypeRoutes = require('./serviceTypeRoutes');
 const dbaRoutes = require('./dbaRoutes');
 
 const getRoutes = (app) => {
@@ -26,6 +27,7 @@ const getRoutes = (app) => {
   app.use('/', couponsRoutes);
   app.use('/', creditCardRoutes);
   app.use('/', dbaRoutes);
+  app.use('/', serviceTypeRoutes);
 };
 
 module.exports = { getRoutes };

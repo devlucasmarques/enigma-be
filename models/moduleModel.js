@@ -28,6 +28,7 @@ const SchemaModule = new Schema({
   idCopyModule: SchemaTypes.ObjectId,
   idModel: SchemaTypes.ObjectId,
   idUser: SchemaTypes.ObjectId,
+  idServiceType: SchemaTypes.ObjectId,
   name: String,
   size: String,
   component: String,
@@ -39,7 +40,8 @@ const SchemaModule = new Schema({
     }
   ],
   donateFilename: String,
-  fileBase: [SchemaFileBase]
+  fileBase: [SchemaFileBase],
+  credit: String
 });
 
 const ModuleModel = mongoose.model('_enigma_module', SchemaModule);

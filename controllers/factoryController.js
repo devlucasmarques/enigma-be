@@ -5,11 +5,23 @@ const getFactories = async (req, res) => {
   if (req.level > 5)
     return res.status(403).json({ factories: [], models: [], modules: [] });
 
+  if (!req.query?.serviceType) {
+    res.status(400).json({ error: true });
+    return;
+  }
+
   try {
-    const Factories = await FactoryModel.find({});
+    const find =
+      req.query?.serviceType !== '67a161f97f64e0a93b665804' //codigo do tipo airbag
+        ? { idServiceType: req.query.serviceType }
+        : {
+            $or: [{ idServiceType: { $exists: false } }]
+          };
+    const Factories = await FactoryModel.find(find);
     res.status(200).json(Factories);
   } catch (e) {
     res.status(599).json({ error: true });
+    console.error(e);
   }
 };
 
@@ -19,10 +31,23 @@ const saveFactory = async (req, res) => {
 
   try {
     const { body } = req;
-    const { factory, localImage, models } = body;
-    const doc = new FactoryModel({ factory, localImage, models });
+    const { factory, localImage, models, idServiceType } = body;
+    const doc = new FactoryModel({
+      factory,
+      localImage,
+      models,
+      idServiceType
+    });
+    console.log('idServiceType', idServiceType);
+
+    if (!idServiceType) {
+      res.status(400).json({ error: true });
+      return;
+    }
+
     const saved = await doc.save();
     saved ? res.status(201).json(saved._id) : res.status(500).json({});
+    res.status(201).end();
   } catch (e) {
     res.status(599).json({ error: true });
   }
